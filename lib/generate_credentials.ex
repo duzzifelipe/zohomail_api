@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.GenerateCredentials do
+defmodule Mix.Tasks.Zoho.GenerateCredentials do
   @moduledoc """
   This module will generate an API key to use with ZohoMail Send API
   """
