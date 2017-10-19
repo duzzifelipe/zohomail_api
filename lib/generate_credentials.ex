@@ -12,13 +12,20 @@ defmodule Mix.Tasks.Zoho.GenerateCredentials do
     request_access_token(email, password)
   end
 
+  @doc """
+  Receive only 1 variable and show an error
+  """
+  def run(_) do
+    Mix.shell.info("\nError: Provide 2 variables (email + password)")
+  end
+
   defp request_access_token(email, password) do
     HTTPotion.start()
 
     # get zoho URL and call with auth parameters
     Application.get_env(:zohomail_api, :auth_endpoint)
     |> HTTPotion.get(query: %{"SCOPE": "ZohoMail/ZohoMailAPI", "EMAIL_ID": email, "PASSWORD": password})
-    |> parse_response
+    |> parse_response()
   end
 
   #  Zoho does not answer using JSON. So, interpret their text message.
@@ -42,6 +49,7 @@ defmodule Mix.Tasks.Zoho.GenerateCredentials do
     |> String.split("\n")
     |> Enum.slice(2, 2)
     |> reduce_list()
+    |> is_ok_get_account()
     |> IO.inspect()
   end
 
@@ -94,6 +102,38 @@ defmodule Mix.Tasks.Zoho.GenerateCredentials do
     case list do
       [cause: cause, result: false] -> {:error, cause}
       [authtoken: token, result: true] -> {:ok, token}
+    end
+  end
+
+  # parse the result of previous function
+  # that could be:
+  # {:ok, "tokenstring"}
+  # {:error, :err_msg_atom}
+  # and, if is ok, call API endpoint to get account ID
+  defp is_ok_get_account({status, data}) do
+    case status do
+      :ok -> get_account(data)
+      :error -> {:error, data}
+    end
+  end
+
+  defp get_account(access_token) do
+    # define auth header
+    headers = ["Authorization": "Zoho-authtoken #{access_token}", "Accept": "Application/json; Charset=utf-8"]
+    # get url and then call Zoho API
+    Application.get_env(:zohomail_api, :api_endpoint) <> "/accounts"
+    |> HTTPotion.get(headers: headers)
+    |> parse_account_response(access_token)
+  end
+
+  defp parse_account_response(%{body: body}, access_token) do
+    case Poison.decode(body) do
+      {:ok, %{"status" => %{"code" => _, "description" => "success"}, "data" => [data]}} ->
+        {:ok, access_token, Map.get(data, "accountId", "")}
+      {:ok, %{"status" => %{"code" => _, "description" => "Invalid Input"}, "data" => _}} ->
+        {:error, :invalid_generated_token}
+      {:error, _} ->
+        {:error, :mal_formed_json}
     end
   end
 end
