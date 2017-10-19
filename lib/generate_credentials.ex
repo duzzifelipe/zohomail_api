@@ -129,7 +129,7 @@ defmodule Mix.Tasks.Zoho.GenerateCredentials do
   defp parse_account_response(%{body: body}, access_token) do
     case Poison.decode(body) do
       {:ok, %{"status" => %{"code" => _, "description" => "success"}, "data" => [data]}} ->
-        {:ok, access_token, Map.get(data, "accountId", "")}
+        {:ok, [access_token: access_token, account_id: Map.get(data, "accountId", "")]}
       {:ok, %{"status" => %{"code" => _, "description" => "Invalid Input"}, "data" => _}} ->
         {:error, :invalid_generated_token}
       {:error, _} ->
