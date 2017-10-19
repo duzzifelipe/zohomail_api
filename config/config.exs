@@ -3,7 +3,8 @@
 use Mix.Config
 
 config :zohomail_api,
-  auth_endpoint: "https://accounts.zoho.com/apiauthtoken/nb/create"
+  auth_endpoint: "https://accounts.zoho.com/apiauthtoken/nb/create",
+  api_endpoint: "https://mail.zoho.com/api"
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
