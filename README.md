@@ -35,3 +35,16 @@ config :zohomail_api,
 ```
 
 ### Send your email
+Send an email from your controller.
+If you didn't set `from_address` on your configuration file, you can specify as the last argument of send function (optional).
+
+```
+ZohomailApi.send("destination@email.com", "Email Subject", "<h1>HTML Content</h1>", "fromAdress@if-not.set")
+```
+
+### Todo
+I created this repository because I had a lot of problems to send a Zoho mail using elixir, maily to generate the credentials. Also, Zoho mail documentation seems imcomplete.
+There are more things to be done that I don't need by now or I didn't finished:
+  - Post tests (I don't know how to do it without exposing my keys, so they weren't uploaded);
+  - More options like sending attachments and CC;
+  - Receive emails.
