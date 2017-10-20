@@ -7,7 +7,15 @@ defmodule ZohomailApi.Mixfile do
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     description: "Send emails using ZohoMail's REST API",
+     package: package(),
      deps: deps()]
+  end
+
+  defp package do
+    [maintainers: ["duzzifelipe"],
+     licenses: ["MIT"],
+     links: %{"GitHub" => "https://github.com/blackode/printex"}]
   end
 
   # Configuration for the OTP application
