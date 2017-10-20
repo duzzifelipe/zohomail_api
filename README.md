@@ -29,8 +29,9 @@ Do it by the way you want, environment variables or plain text.
 
 ```
 config :zohomail_api,
-  access_token: xxxxxxxxxxxxxxx
-  account_id: 0000000000
+  access_token: xxxxxxxxxxxxxxx,
+  account_id: 0000000000,
+  from_address: my-zoho@email.com
 ```
 
 ### Send your email
