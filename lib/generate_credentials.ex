@@ -123,7 +123,7 @@ defmodule Mix.Tasks.Zoho.GenerateCredentials do
     # define auth header
     headers = ["Authorization": "Zoho-authtoken #{access_token}", "Accept": "Application/json; Charset=utf-8"]
     # get url and then call Zoho API
-    HTTPotion.get(@api_endpoint <> "/accounts", headers: headers)
+    HTTPotion.get(@api_endpoint <> "/accounts", headers: headers, timeout: 10_000)
     |> parse_account_response(access_token)
   end
 
