@@ -10,7 +10,7 @@ To get started, add `zohomail_api` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:zohomail_api, "~> 0.0.1"}]
+  [{:zohomail_api, "~> 0.0.2"}]
 end
 ```
 

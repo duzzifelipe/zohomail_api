@@ -15,6 +15,8 @@ defmodule ZohomailApi do
   Send an email using ZohoMail API
   """
 
+  @api_endpoint "https://mail.zoho.com/api"
+
   @doc """
   Load account information and call send-mail with passed arguments
   """
@@ -36,7 +38,7 @@ defmodule ZohomailApi do
       {:error, :invalid_access_data}
     else
       # build resource url and call send function
-      resource = Application.get_env(:zohomail_api, :api_endpoint) <> "/accounts/" <> account_id <> "/messages"
+      resource = @api_endpoint <> "/accounts/" <> account_id <> "/messages"
       # generate authentication header
       headers = ["Authorization": "Zoho-authtoken #{access_token}", "Accept": "Application/json; Charset=utf-8"]
       # post data

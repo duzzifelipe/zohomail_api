@@ -5,6 +5,9 @@ defmodule Mix.Tasks.Zoho.GenerateCredentials do
 
   use Mix.Task
 
+  @auth_endpoint "https://accounts.zoho.com/apiauthtoken/nb/create"
+  @api_endpoint "https://mail.zoho.com/api"
+
   @doc """
   Receive user's credentials and then request an access token
   """
@@ -23,8 +26,7 @@ defmodule Mix.Tasks.Zoho.GenerateCredentials do
     HTTPotion.start()
 
     # get zoho URL and call with auth parameters
-    Application.get_env(:zohomail_api, :auth_endpoint)
-    |> HTTPotion.get(query: %{"SCOPE": "ZohoMail/ZohoMailAPI", "EMAIL_ID": email, "PASSWORD": password})
+    HTTPotion.get(@auth_endpoint, query: %{"SCOPE": "ZohoMail/ZohoMailAPI", "EMAIL_ID": email, "PASSWORD": password})
     |> parse_response()
   end
 
@@ -121,8 +123,7 @@ defmodule Mix.Tasks.Zoho.GenerateCredentials do
     # define auth header
     headers = ["Authorization": "Zoho-authtoken #{access_token}", "Accept": "Application/json; Charset=utf-8"]
     # get url and then call Zoho API
-    Application.get_env(:zohomail_api, :api_endpoint) <> "/accounts"
-    |> HTTPotion.get(headers: headers)
+    HTTPotion.get(@api_endpoint <> "/accounts", headers: headers)
     |> parse_account_response(access_token)
   end
 
