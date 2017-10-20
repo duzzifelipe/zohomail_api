@@ -1,5 +1,6 @@
 defmodule ZohomailApi.Mixfile do
   use Mix.Project
+  use Mix.Config
 
   def project do
     [app: :zohomail_api,
