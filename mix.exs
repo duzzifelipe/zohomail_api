@@ -15,7 +15,7 @@ defmodule ZohomailApi.Mixfile do
   defp package do
     [maintainers: ["duzzifelipe"],
      licenses: ["MIT"],
-     links: %{"GitHub" => "https://github.com/blackode/printex"}]
+     links: %{"GitHub" => "https://github.com/duzzifelipe/zohomail_api"}]
   end
 
   # Configuration for the OTP application
