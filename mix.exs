@@ -42,4 +42,9 @@ defmodule ZohomailApi.Mixfile do
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
+
+  # Application environment config
+  config :zohomail_api,
+    auth_endpoint: "https://accounts.zoho.com/apiauthtoken/nb/create",
+    api_endpoint: "https://mail.zoho.com/api"
 end
