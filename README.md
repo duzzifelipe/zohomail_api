@@ -47,4 +47,25 @@ I created this repository because I had a lot of problems to send a Zoho mail us
 There are more things to be done that I don't need by now or I didn't finished:
   - Post tests (I don't know how to do it without exposing my keys, so they weren't uploaded);
   - More options like sending attachments and CC;
-  - Receive emails.
+  - Receive emails;
+  - Render HTML.
+
+### HTML Rendering
+Nowadays there isn't an easy way to render an HTML template (.eex).
+But you can follow these steps to get it:
+
+Create a view and a template folder containing your templates as you do with Phoenix templates.
+```
+defmodule MyProj.EmailView do
+  use MyProj, :view
+end
+```
+
+Then, while sending your email, you can call a View-to-string method:
+```
+ZohomailApi.send(
+  "destination@email.com", 
+  "Email Subject",
+  Phoenix.View.render_to_string(MyProj.EmailView, "email-template.html", [conn: conn, custom_data: %{}])
+  )
+```
